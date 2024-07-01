@@ -1,13 +1,11 @@
 import requests
 from PIL import Image
+import io
 
 response = requests.get("https://randomfox.ca/floof/")
 
-
 fox = response.json()
-fox_img = requests.get(fox["image"])
-with open("fox.jpg", "wb") as handler:
-    handler.write(fox_img.content)
+fox_img = requests.get(fox["image"]).content
 
-im = Image.open("fox.jpg")
+im = Image.open(io.BytesIO(fox_img))
 im.show()
